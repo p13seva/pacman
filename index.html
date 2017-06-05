@@ -63,6 +63,8 @@
             //  Remove the next 2 lines if running locally
             this.load.baseURL = 'https://p13seva.github.io/pacman/';
             this.load.crossOrigin = 'anonymous';
+            
+            this.load.image('Ghost', 'assets/Ghost.png');
 
             this.load.image('dot', 'assets/Planet.png');
             this.load.image('tiles', 'assets/pacman-tiles.png');
@@ -261,6 +263,66 @@
     };
 
     game.state.add('Game', Pacman, true);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        function Ghost(x, y, speed, animImg) {
+            this.outId = 0;
+            this.runId = 0;
+            Entity.apply(this, arguments);
+            if (typeof this.randPath != "function") {
+                Ghost.prototype.randPath = function (c) {
+                    var rp = Math.random();
+                    if (rp < 0.25) {
+                        return 87;
+                    }
+                    if (rp < 0.5) {
+                        return 83;
+                    }
+                    if (rp < 0.75) {
+                        return 65;
+                    }
+                    return 68;
+                }
+            }
+            if (typeof this.run != "function") {
+                Ghost.prototype.run = function () {
+                    if (this.intervalID == 0) {
+                        this.move(this.randPath());
+                    }
+                }
+            }
+            if (typeof this.out != "function") {
+                Ghost.prototype.out = function(x, y, dx, dy) {
+                    if((this.x - x) != 0){
+                        this.x += dx;
+                        this.center_x += dx;
+                        return;
+                    }
+                    if((this.y - y) != 0){
+                        this.y += dy;
+                        this.center_y += dy;
+                        return;
+                    }
+                    if(this.runId == 0) {
+                    this.runId = setInterval(this.run.bind(this), 10 - level); 
+                    clearTimeout(this.outId);
+                    this.outId = 0;
+                    }                   
+                }
+            }
+        }
+        Ghost.prototype = Object.create(Entity.prototype);
+        Ghost.prototype.constructor = Ghost; 
+        
+        
+        
 
     </script>
 
