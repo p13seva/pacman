@@ -351,7 +351,7 @@
             this.physics.arcade.collide(this.pacman, this.layer);
             this.physics.arcade.overlap(this.pacman, this.dots, this.eatDot, null, this);
 	//-----------------ΠΡΟΣΘΕΣΗ----------------------------------------------
-	    this.physics.arcade.overlap(this.pacman, this.earth, this.TakeBonus, null, this);
+	    this.physics.arcade.overlap(this.pacman, this.earth, this.TakeCredits, null, this);
 	//-------------------------------------------------------------|
 
             this.marker.x = this.math.snapToFloor(Math.floor(this.pacman.x), this.gridsize) / this.gridsize;
