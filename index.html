@@ -21,6 +21,11 @@
     
 
     <script type="text/javascript">
+	 //---------------Προσθεση-----------|
+	    
+	    var enemySpeed = 75;
+	//--------------------------------|
+	    
 
     var game = new Phaser.Game(448, 496, Phaser.AUTO);
         var score=0;
@@ -31,6 +36,8 @@
         this.map = null;
         this.layer = null;
         this.pacman = null;
+	//-----------------ΠΡΟΣΘΕΣΗ    
+        this.enemy = null;
 
         this.safetile = 14;
         this.gridsize = 16;
@@ -69,8 +76,13 @@
             //  Remove the next 2 lines if running locally
             this.load.baseURL = 'https://p13seva.github.io/pacman/';
             this.load.crossOrigin = 'anonymous';
-            
-
+		
+		
+            //-----------------------------------ΠΡΟΣΘΕΣΗ
+            this.load.spritesheet('enemy', 'assets/enemy.png', 32, 32);
+	    this.load.image('diamond', 'assets/Diamond.png');
+            this.load.image('life', 'assets/Life.png');
+	//----------------------------------------------------
             this.load.image('dot', 'assets/Planet.png');
             this.load.image('tiles', 'assets/pacman-tiles.png');
             this.load.spritesheet('pacman', 'assets/Martian.png', 32, 32);
@@ -89,12 +101,26 @@
             this.layer = this.map.createLayer('Pacman');
 
             this.dots = this.add.physicsGroup();
+        //-------------ΠΡΟΣΘΕΣΗ
+            this.petrols = this.add.physicsGroup();
+       //-------------------------------
 
+		
+		
             this.map.createFromTiles(7, this.safetile, 'dot', this.layer, this.dots);
-
+		//--------ΠΡΟΣΘΕΣΗ------
+	    this.map.createFromTiles(35, this.safetile, 'petrol', this.layer, this.petrols);
+               //---------------------|
+		
+		
             //  The dots will need to be offset by 6px to put them back in the middle of the grid
             this.dots.setAll('x', 6, false, false, 1);
             this.dots.setAll('y', 6, false, false, 1);
+	//---------ΠΡΟΣΘΕΣΗ------
+		this.petrols.setAll('x', 0, false, false, 1);
+		this.petrols.setAll('y', 0, false, false, 1);
+	//---------------------------------|
+		
 
             //  Pacman should collide with everything except the safe tile
             this.map.setCollisionByExclusion([this.safetile], true, this.layer);
@@ -106,12 +132,34 @@
 
             this.physics.arcade.enable(this.pacman);
             this.pacman.body.setSize(16, 16, 0, 0);
+	//---------------ΠΡΟΣΘΕΣΗ----------
+	    this.enemy = this.add.sprite((14 * 16) + 8, (20 * 16) + 8, 'enemy', 0);
+            this.enemy.anchor.set(0.5);
+       
+            this.physics.arcade.enable(this.enemy);
+            this.enemy.body.setSize(16, 16, 0, 0);
+     //-----------------------------------------------|
 
             this.cursors = this.input.keyboard.createCursorKeys();
+		
+   
 
             this.pacman.play('munch');
             this.move(Phaser.LEFT);
             scoretxt = game.add.text(290, -5, 'Score: 0', {fond: '11px Verdara', fill: '#ffffff'})
+		
+		
+		
+	//-----------ΠΡΟΣΘΕΣΗ-----
+		life = game.add.group();	
+		
+	                      for (var i= 0; i< 4; i++){
+		                     var pacman = life.create(game.world.width - 280 + (40*i), 517, 'life');
+		                        pacman.anchor.setTo(0.5, 0.5);
+		                         pacman.angle = 0;
+		                            pacman.alpha = 0.4;
+            }
+	//---------------------------------------------------------------|
 
         },
 
@@ -238,16 +286,69 @@
             if (this.dots.total === 0)
             {
                 this.dots.callAll('revive');
-            }
+		 
 
+            }
+	
         },
+	//---------ΠΡΟΣΘΕΣΗ---------------
+	     TakeBonus: function (pacman, diamond) {
+           diamond.kill();
+            
+            var audio = new Audio('assets/TakeDiamond.mp3');
+            audio.play()
+            
+            this.bonusscr += 10;
+            this.TextBns.text = 'Bonus:' + this.bonusscr;
+        
+            if(this.diamond.total === 0){
+           	 this.diamond.callAll('revive');
+            }
+        },
+	  
+	//--------------------------------------------
        
         
 
         update: function () {
+		
+	//--------ΠΡΟΣΘΕΣΗ-----------------------------------------------------------------
+		this.enemy.scale.x = 1;
+        	if(this.enemy.angle == 0)
+        	{
+        		this.enemy.body.velocity.x = enemySpeed;
+        	}
+        	if(this.enemy.angle == -180)
+        	{
+        		this.enemy.body.velocity.x = -enemySpeed;
+        	}
+        	if(this.enemy.angle == 90)
+        	{
+        		this.enemy.body.velocity.y = enemySpeed;
+        	}
+        	if(this.enemy.angle == -90)
+        	{
+        		this.enemy.body.velocity.y = -enemySpeed;
+        	}       	
+        	if(this.physics.arcade.collide(this.enemy, this.layer))
+        	{
+        		randomVar = Math.floor((Math.random() * 2) + 1);
+        		if(randomVar == 1)
+        		{
+        			this.enemy.angle = this.enemy.angle + 90;
+        		}
+        		else
+        		{
+        			this.enemy.angle = this.enemy.angle - 90;
+        		}        		
+        	}
+	//---------------------------------------------------------------------|
           
             this.physics.arcade.collide(this.pacman, this.layer);
             this.physics.arcade.overlap(this.pacman, this.dots, this.eatDot, null, this);
+	//-----------------ΠΡΟΣΘΕΣΗ----------------------------------------------
+	    this.physics.arcade.overlap(this.pacman, this.diamond, this.TakeBonus, null, this);
+	//-------------------------------------------------------------|
 
             this.marker.x = this.math.snapToFloor(Math.floor(this.pacman.x), this.gridsize) / this.gridsize;
             this.marker.y = this.math.snapToFloor(Math.floor(this.pacman.y), this.gridsize) / this.gridsize;
