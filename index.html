@@ -292,17 +292,17 @@
 	
         },
 	//---------ΠΡΟΣΘΕΣΗ---------------
-	     TakeBonus: function (pacman, earth) {
+	     TakeCredits: function (pacman, earth) {
            earth.kill();
             
             var audio = new Audio('assets/Takeearth.mp3');
             audio.play()
             
-            this.bonusscore += 10;
-            this.TextBonus.text = 'Bonus:' + this.bonusscr;
+            this.Creditsscore += 10;
+            this.TextCredits.text = 'Credits:' + this.Creditsscore;
         
-            if(this.diamond.total === 0){
-           	 this.diamond.callAll('revive');
+            if(this.earth.total === 0){
+           	 this.earth.callAll('revive');
             }
         },
 	  
@@ -313,33 +313,33 @@
         update: function () {
 		
 	//--------ΠΡΟΣΘΕΣΗ-----------------------------------------------------------------
-		this.enemy.scale.x = 1;
-        	if(this.enemy.angle == 0)
+		this.ghost.scale.x = 1;
+        	if(this.ghost.angle == 0)
         	{
-        		this.enemy.body.velocity.x = enemySpeed;
+        		this.ghost.body.velocity.x = ghostSpeed;
         	}
         	if(this.enemy.angle == -180)
         	{
-        		this.enemy.body.velocity.x = -enemySpeed;
+        		this.ghost.body.velocity.x = -ghostSpeed;
         	}
-        	if(this.enemy.angle == 90)
+        	if(this.ghost.angle == 90)
         	{
-        		this.enemy.body.velocity.y = enemySpeed;
+        		this.ghost.body.velocity.y = ghostSpeed;
         	}
-        	if(this.enemy.angle == -90)
+        	if(this.ghost.angle == -90)
         	{
-        		this.enemy.body.velocity.y = -enemySpeed;
+        		this.ghost.body.velocity.y = -ghostSpeed;
         	}       	
-        	if(this.physics.arcade.collide(this.enemy, this.layer))
+        	if(this.physics.arcade.collide(this.ghost, this.layer))
         	{
         		randomVar = Math.floor((Math.random() * 2) + 1);
         		if(randomVar == 1)
         		{
-        			this.enemy.angle = this.enemy.angle + 90;
+        			this.ghost.angle = this.ghost.angle + 90;
         		}
         		else
         		{
-        			this.enemy.angle = this.enemy.angle - 90;
+        			this.ghost.angle = this.ghost.angle - 90;
         		}        		
         	}
 	//---------------------------------------------------------------------|
@@ -347,7 +347,7 @@
             this.physics.arcade.collide(this.pacman, this.layer);
             this.physics.arcade.overlap(this.pacman, this.dots, this.eatDot, null, this);
 	//-----------------ΠΡΟΣΘΕΣΗ----------------------------------------------
-	    this.physics.arcade.overlap(this.pacman, this.diamond, this.TakeBonus, null, this);
+	    this.physics.arcade.overlap(this.pacman, this.earth, this.TakeBonus, null, this);
 	//-------------------------------------------------------------|
 
             this.marker.x = this.math.snapToFloor(Math.floor(this.pacman.x), this.gridsize) / this.gridsize;
