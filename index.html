@@ -21,10 +21,9 @@
     
 
     <script type="text/javascript">
-	 //---------------Προσθεση-----------|
 	    
 	    var ghostSpeed = 75;
-	//--------------------------------|
+	
 	    
 
     var game = new Phaser.Game(448, 496, Phaser.AUTO);
@@ -36,8 +35,7 @@
         this.map = null;
         this.layer = null;
         this.pacman = null;
-	//-----------------ΠΡΟΣΘΕΣΗ    
-      //  this.ghost = null;
+	
 
         this.safetile = 14;
         this.gridsize = 16;
@@ -53,7 +51,7 @@
 
         this.current = Phaser.NONE;
         this.turning = Phaser.NONE;
-	//------------------ΠΡΟΣΘΗΚΗ-------
+	
 	this.Credits = 0;
         this.TextCredits = '';
 
@@ -81,7 +79,7 @@
             this.load.crossOrigin = 'anonymous';
 		
 		
-            //-----------------------------------ΠΡΟΣΘΕΣΗ
+         
             this.load.spritesheet('ghost', 'assets/ghost.png', 32, 32);
 	    this.load.image('earth', 'assets/earth.png');
        
@@ -104,25 +102,25 @@
             this.layer = this.map.createLayer('Pacman');
 
             this.dots = this.add.physicsGroup();
-        //-------------ΠΡΟΣΘΕΣΗ
+      
             this.earth = this.add.physicsGroup();
-       //-------------------------------
+       
 
 		
 		
             this.map.createFromTiles(7, this.safetile, 'dot', this.layer, this.dots);
-		//--------ΠΡΟΣΘΕΣΗ------
+		
 	    this.map.createFromTiles(12, this.safetile, 'earth', this.layer, this.earth);
-               //---------------------|
+         
 		
 		
             //  The dots will need to be offset by 6px to put them back in the middle of the grid
             this.dots.setAll('x', 6, false, false, 1);
             this.dots.setAll('y', 6, false, false, 1);
-	//---------ΠΡΟΣΘΕΣΗ------
-		this.earth.setAll('x', 6, false, false, 1);
-		this.earth.setAll('y', 6, false, false, 1);
-	//---------------------------------|
+	
+	    this.earth.setAll('x', 6, false, false, 1);
+            this.earth.setAll('y', 6, false, false, 1);
+	
 		
 
             //  Pacman should collide with everything except the safe tile
@@ -135,13 +133,13 @@
 
             this.physics.arcade.enable(this.pacman);
             this.pacman.body.setSize(16, 16, 0, 0);
-	//---------------ΠΡΟΣΘΕΣΗ----------
+	
 	    this.ghost = this.add.sprite((14 * 16) + 8, (20 * 16) + 8, 'ghost', 0);
             this.ghost.anchor.set(0.5);
        
             this.physics.arcade.enable(this.ghost);
             this.ghost.body.setSize(16, 16, 0, 0);
-     //-----------------------------------------------|
+     
 
             this.cursors = this.input.keyboard.createCursorKeys();
 		
@@ -150,7 +148,7 @@
             this.pacman.play('munch');
             this.move(Phaser.LEFT);
             scoretxt = game.add.text(290, -5, 'Score: 0', {fond: '11px Verdara', fill: '#ffffff'})
-	   //------------------------ΠΡΟΣΘΕΣΗ------
+	   
             this.TextCredits = game.add.text(300, 500, 'Credits: 0', {fontSize: '20px Arial', fill: 'white' });
 				
 
@@ -284,9 +282,10 @@
             }
 	
         },
-	//---------ΠΡΟΣΘΕΣΗ---------------
-	     TakeCredits: function (pacman, earth) {
-           earth.kill();
+	
+	     takeCredits: function (pacman, earth) {
+		     
+              earth.kill();
             
             var audio = new Audio('assets/Takeearth.mp3');
             audio.play()
@@ -294,18 +293,19 @@
             this.Credits += 10;
             this.TextCredits.text = 'Credits:' + this.Credits;
         
-            if(this.earth.total === 0){
+            if(this.earth.total=== 0){
            	 this.earth.callAll('revive');
             }
+		     
         },
 	  
-	//--------------------------------------------
+	
        
         
 
         update: function () {
 		
-	//--------ΠΡΟΣΘΕΣΗ-----------------------------------------------------------------
+	
 		this.ghost.scale.x = 1;
         	if(this.ghost.angle == 0)
         	{
@@ -335,13 +335,13 @@
         			this.ghost.angle = this.ghost.angle - 90;
         		}        		
         	}
-	//---------------------------------------------------------------------|
+	
           
             this.physics.arcade.collide(this.pacman, this.layer);
             this.physics.arcade.overlap(this.pacman, this.dots, this.eatDot, null, this);
-	//-----------------ΠΡΟΣΘΕΣΗ----------------------------------------------
-	    this.physics.arcade.overlap(this.pacman, this.earth, this.TakeCredits, null, this);
-	//-------------------------------------------------------------|
+	
+	    this.physics.arcade.overlap(this.pacman, this.earth, this.takeCredits, null, this);
+	
 
             this.marker.x = this.math.snapToFloor(Math.floor(this.pacman.x), this.gridsize) / this.gridsize;
             this.marker.y = this.math.snapToFloor(Math.floor(this.pacman.y), this.gridsize) / this.gridsize;
