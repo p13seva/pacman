@@ -23,7 +23,7 @@
     <script type="text/javascript">
 	 //---------------Προσθεση-----------|
 	    
-	    var enemySpeed = 75;
+	    var ghostSpeed = 75;
 	//--------------------------------|
 	    
 
@@ -37,7 +37,7 @@
         this.layer = null;
         this.pacman = null;
 	//-----------------ΠΡΟΣΘΕΣΗ    
-        this.enemy = null;
+        this.ghost = null;
 
         this.safetile = 14;
         this.gridsize = 16;
@@ -79,9 +79,9 @@
 		
 		
             //-----------------------------------ΠΡΟΣΘΕΣΗ
-            this.load.spritesheet('enemy', 'assets/enemy.png', 32, 32);
-	    this.load.image('diamond', 'assets/Diamond.png');
-            this.load.image('life', 'assets/Life.png');
+            this.load.spritesheet('gost', 'assets/ghost.png', 32, 32);
+	    this.load.image('earth', 'assets/earth.png');
+            this.load.image('life', 'assets/life.png');
 	//----------------------------------------------------
             this.load.image('dot', 'assets/Planet.png');
             this.load.image('tiles', 'assets/pacman-tiles.png');
@@ -102,14 +102,14 @@
 
             this.dots = this.add.physicsGroup();
         //-------------ΠΡΟΣΘΕΣΗ
-            this.petrols = this.add.physicsGroup();
+            this.earth = this.add.physicsGroup();
        //-------------------------------
 
 		
 		
             this.map.createFromTiles(7, this.safetile, 'dot', this.layer, this.dots);
 		//--------ΠΡΟΣΘΕΣΗ------
-	    this.map.createFromTiles(35, this.safetile, 'petrol', this.layer, this.petrols);
+	    this.map.createFromTiles(35, this.safetile, 'earth', this.layer, this.earth);
                //---------------------|
 		
 		
@@ -117,8 +117,8 @@
             this.dots.setAll('x', 6, false, false, 1);
             this.dots.setAll('y', 6, false, false, 1);
 	//---------ΠΡΟΣΘΕΣΗ------
-		this.petrols.setAll('x', 0, false, false, 1);
-		this.petrols.setAll('y', 0, false, false, 1);
+		this.earth.setAll('x', 0, false, false, 1);
+		this.earth.setAll('y', 0, false, false, 1);
 	//---------------------------------|
 		
 
@@ -133,11 +133,11 @@
             this.physics.arcade.enable(this.pacman);
             this.pacman.body.setSize(16, 16, 0, 0);
 	//---------------ΠΡΟΣΘΕΣΗ----------
-	    this.enemy = this.add.sprite((14 * 16) + 8, (20 * 16) + 8, 'enemy', 0);
-            this.enemy.anchor.set(0.5);
+	    this.ghost = this.add.sprite((14 * 16) + 8, (20 * 16) + 8, 'ghost', 0);
+            this.ghost.anchor.set(0.5);
        
-            this.physics.arcade.enable(this.enemy);
-            this.enemy.body.setSize(16, 16, 0, 0);
+            this.physics.arcade.enable(this.ghost);
+            this.ghost.body.setSize(16, 16, 0, 0);
      //-----------------------------------------------|
 
             this.cursors = this.input.keyboard.createCursorKeys();
@@ -292,14 +292,14 @@
 	
         },
 	//---------ΠΡΟΣΘΕΣΗ---------------
-	     TakeBonus: function (pacman, diamond) {
-           diamond.kill();
+	     TakeBonus: function (pacman, earth) {
+           earth.kill();
             
-            var audio = new Audio('assets/TakeDiamond.mp3');
+            var audio = new Audio('assets/Takeearth.mp3');
             audio.play()
             
-            this.bonusscr += 10;
-            this.TextBns.text = 'Bonus:' + this.bonusscr;
+            this.bonusscore += 10;
+            this.TextBonus.text = 'Bonus:' + this.bonusscr;
         
             if(this.diamond.total === 0){
            	 this.diamond.callAll('revive');
