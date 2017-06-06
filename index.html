@@ -54,7 +54,7 @@
         this.current = Phaser.NONE;
         this.turning = Phaser.NONE;
 	//------------------ΠΡΟΣΘΗΚΗ-------
-	this.Creditsscore = 0;
+	this.Credits = 0;
         this.TextCredits = '';
 
     };
@@ -292,7 +292,7 @@
             audio.play()
             
             this.Creditsscore += 10;
-            this.TextCredits.text = 'Credits:' + this.Creditsscore;
+            this.TextCredits.text = 'Credits:' + this.Credits;
         
             if(this.earth.total === 0){
            	 this.earth.callAll('revive');
