@@ -84,8 +84,8 @@
             //-----------------------------------ΠΡΟΣΘΕΣΗ
             this.load.spritesheet('ghost', 'assets/ghost.png', 32, 32);
 	    this.load.image('earth', 'assets/earth.png');
-            this.load.image('life', 'assets/life.png');
-	//----------------------------------------------------
+       
+	
             this.load.image('dot', 'assets/Planet.png');
             this.load.image('tiles', 'assets/pacman-tiles.png');
             this.load.spritesheet('pacman', 'assets/Martian.png', 32, 32);
@@ -152,18 +152,7 @@
             scoretxt = game.add.text(290, -5, 'Score: 0', {fond: '11px Verdara', fill: '#ffffff'})
 	   //------------------------ΠΡΟΣΘΕΣΗ------
             this.TextCredits = game.add.text(300, 500, 'Credits: 0', {fontSize: '25px Candara', fill: '#f7ea31'})
-		
-		
-	//-----------ΠΡΟΣΘΕΣΗ-----
-		life = game.add.group();	
-		
-	                      for (var i= 0; i< 4; i++){
-		                     var pacman = life.create(game.world.width - 280 + (40*i), 517, 'life');
-		                        pacman.anchor.setTo(0.5, 0.5);
-		                         pacman.angle = 0;
-		                            pacman.alpha = 0.4;
-            }
-	//---------------------------------------------------------------|
+				
 
         },
 
