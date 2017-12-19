@@ -1,2 +1,1 @@
-# Pacman
-test2
+* [Github Page παιχνιδιού](https://p13seva.github.io/)
