@@ -1,5 +1,5 @@
 # Pacman
-* [Github Page παιχνιδιού](https://p13seva.github.io/)
+ [Github Page παιχνιδιού](https://p13seva.github.io/)
 
 #Σύνοψη
 Η παρούσα αναφορά δημιουργήθηκε στα πλαίσια του μαθήματος, 6ου εξαμήνου, “Τεχνολογία Λογισμικού”. Σκοπός είναι η περιγραφή της εξαμηνιαίας εργασίας του μαθήματος, με αντικείμενο την επέκταση του παιχνιδιού Pacman -ένα HTML5 video game–.
@@ -7,7 +7,9 @@
 Για την εύρεση της εργασίας, χρήσιμα link είναι τα παρακάτω:
 
 *[Προσωπικό αποθετήριό](https://github.com/p13seva/pacman)
+
 *[Παιχνίδι](https://p13seva.github.io/pacman/)
+
 *[Github Page παιχνιδιού](https://p13seva.github.io/)
 
 #Εισαγωγή
@@ -25,7 +27,7 @@ this.load.baseURL = 'https://p13seva.github.io/pacman/';
 
 Ο πρωταγωνιστής και τα αντικείμενα που χρησιμοποιήθηκαν είναι:
 
-  file:///Users/Kissamitakis/Downloads/Marvin-Martian-icon.png   
+ 
 
 Η νέα πίστα που δημιουργήθηκε είναι:
 
